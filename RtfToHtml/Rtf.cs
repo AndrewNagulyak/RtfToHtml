@@ -27,7 +27,7 @@ namespace RtfToHtml
             Console.WriteLine(htmlWithoutStrangerTags);
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(htmlWithoutStrangerTags);
-            
+
             var htmlBody = htmlDoc.DocumentNode.SelectSingleNode("//html");
             HtmlNodeCollection treeofTags = htmlBody.ChildNodes;
 
@@ -45,7 +45,7 @@ namespace RtfToHtml
                 Console.WriteLine(fatherTag.Name);
 
                 this.addOpeningTagInRtfCode(fatherTag.Name);
-                // this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.Attributes);
+                this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.Attributes);
 
                 //if (fatherTag.Name.toLowerCase() == 'table')
                 //    this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children));
@@ -75,6 +75,26 @@ namespace RtfToHtml
             this.addClosingFatherTagInRtfCode(fatherTag.OriginalName);
 
         }
+        void ifExistsAttributesAddAllReferencesInRtfCode(HtmlAttributeCollection attributes)
+        {
+            foreach (HtmlAttribute attribute in attributes)
+            {
+                if (attribute.OriginalName == "align" || attribute.OriginalName == "text-align")
+                {
+                    this.addReferenceTagInRtfCode(Style.getRtfAlignmentReference(attribute.Value));
+                }
+                if(attribute.OriginalName == "style")
+                {
+                    this.addReferenceTagInRtfCode(Style.getRtfReferencesInStyleProperty(attribute.Value));
+                }
+            }
+            //if (attributes.s != null)
+            //    this.addReferenceTagInRtfCode(Style.getRtfReferencesInStyleProperty(attributes.style));
+            
+        }
+
+
+
         void addClosingFatherTagInRtfCode(string closingFatherTag)
         {
             Console.WriteLine(closingFatherTag);
@@ -106,9 +126,9 @@ namespace RtfToHtml
 
         string buildRtf()
         {
-            //this.rtfHeaderContent += Style.getRtfColorTable();
+            this.rtfHeaderContent += Style.getRtfColorTable();
             string content = (this.rtfHeaderOpening + this.rtfHeaderContent
-                + this.getRtfContentReferences() 
+                + this.getRtfContentReferences()
                 + this.rtfClosing);
             this.clearCacheContent();
             return content;
@@ -123,7 +143,7 @@ namespace RtfToHtml
             string rtfReference = "";
             foreach (Reference value in this.rtfContentReferences)
             {
-                
+
                 rtfReference += value.content;
             }
             return rtfReference;
@@ -131,19 +151,19 @@ namespace RtfToHtml
         string swapHtmlStrangerTags(string html)
         {
             MatchEvaluator evaluator = new MatchEvaluator(WordReplace);
-            
-            
+
+
             string replace = Regex.Replace(html, @"<(\/?[a-z-]+)( *[^>]*)?>", evaluator, RegexOptions.IgnoreCase);
-           
+
             return replace;
         }
         public static string WordReplace(Match match)
         {
             MatchEvaluator evaluator1 = new MatchEvaluator(CheckTag);
 
-          
+
             string tag = Regex.Replace(match.Value, @"<(\/?[a-z-]+[0-9]?)", evaluator1, RegexOptions.IgnoreCase);
-            
+
 
             return tag;
         }
@@ -153,23 +173,23 @@ namespace RtfToHtml
             if (match.Value.Contains('/'))
             {
                 tag = tag.Remove(0, 1);
-              
+
 
                 if (!AllowedHtmlTags.isKnowedTag(tag))
                 {
 
-                    return "</p";
+                    return "</html";
                 }
                 else return match.Value;
             }
             else
             {
                 tag = tag.Remove(0, 1);
-             
+
                 if (!AllowedHtmlTags.isKnowedTag(tag))
                 {
-                   
-                    return "<p";
+
+                    return "<html";
                 }
                 else return match.Value;
             }

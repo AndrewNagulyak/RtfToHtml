@@ -24,31 +24,31 @@ namespace RtfToHtml
             return newstringValue;
         }
 
-       public static string convertOneCharInHexToDec(string value)
+       public static int convertOneCharInHexToDec(string value)
         {
 
             if (value.Length != 1)
-                return null;
+                return 0;
              if (value[0] >= '0' && value[0] <= '9')
-                return value;
+                return value[0];
 
             else if (Char.ToUpper(value[0]) >= 'A' && Char.ToUpper(value[0]) <= 'F')
             {
                 value = Char.ToUpper(value[0]).ToString();
-                string number = "";
+                int number = 0;
                 switch (value)
                 {
-                    case "A": number = "10"; break;
-                    case "B": number = "11"; break;
-                    case "C": number = "12"; break;
-                    case "D": number = "13"; break;
-                    case "E": number = "14"; break;
-                    case "F": number = "15"; break;
+                    case "A": number = 10; break;
+                    case "B": number = 11; break;
+                    case "C": number = 12; break;
+                    case "D": number = 13; break;
+                    case "E": number = 14; break;
+                    case "F": number = 15; break;
                 }
                 return number;
             }
             else
-                return null;
+                return 0;
         }
 
         static string removeCharacterOfEscapeNotAllowed(string stringOfEscape)
