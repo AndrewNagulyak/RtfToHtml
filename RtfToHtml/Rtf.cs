@@ -11,6 +11,8 @@ namespace RtfToHtml
 {
     class Rtf
     {
+        Table table = null;
+
         string rtfHeaderOpening;
         string rtfHeaderContent;
         string rtfClosing;
@@ -24,7 +26,6 @@ namespace RtfToHtml
         public string convertHtmlToRtf(string html)
         {
             string htmlWithoutStrangerTags = this.swapHtmlStrangerTags(html);
-            Console.WriteLine(htmlWithoutStrangerTags);
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(htmlWithoutStrangerTags);
 
@@ -43,16 +44,22 @@ namespace RtfToHtml
             if (fatherTag.ChildNodes != null)
             {
                 Console.WriteLine(fatherTag.Name);
-
                 this.addOpeningTagInRtfCode(fatherTag.Name);
                 this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.Attributes);
 
-                //if (fatherTag.Name.toLowerCase() == 'table')
-                //    this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children));
+                if (fatherTag.Name.ToLower() == "table")
+                {
+                    table= new Table();
 
-                //if (fatherTag.Name.toLowerCase() == 'tr')
-                //    this.addReferenceTagInRtfCode(this.Table.buildCellsLengthOfEachColumn());
+                    table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.ChildNodes));
+                }
 
+                if (fatherTag.Name.ToLower() == "tr")
+                {
+                    if(table!=null)
+                    this.addReferenceTagInRtfCode(table.buildCellsLengthOfEachColumn());
+                }
+           
                 //if (fatherTag.Name.toLowerCase() == 'mark')
                 //    this.setHighlightInRtf();
                 foreach (HtmlNode node in fatherTag.ChildNodes)
@@ -71,8 +78,43 @@ namespace RtfToHtml
 
             }
             //Console.WriteLine(fatherTag.OriginalName);
-
+            if(fatherTag.OriginalName == "a" && !fatherTag.Attributes.Contains("href"))
+            {
+                this.addReferenceTagInRtfCode("}");
+            }
+            else { 
             this.addClosingFatherTagInRtfCode(fatherTag.OriginalName);
+            }
+        }
+        int getAmountOfColumnThroughOfFirstChildOfTbodyTag(HtmlNodeCollection childs)
+        {
+            int count = 0;
+            HtmlNode tbodyIndex;
+            foreach (var element in childs)
+            {
+                if (element.Name == "tbody")
+                {
+                    tbodyIndex = element;
+                    foreach (var node in element.ChildNodes)
+                    {
+
+                        if (node.OriginalName != "#text")
+                        {
+                            foreach (var tr in node.ChildNodes)
+                            {
+                                if (tr.OriginalName != "#text")
+                                    count++;
+                            }
+                            break;
+                        }
+                    }
+                    break;
+
+                }
+
+            }
+            Console.WriteLine(count);
+            return count;
 
         }
         void ifExistsAttributesAddAllReferencesInRtfCode(HtmlAttributeCollection attributes)
@@ -81,23 +123,27 @@ namespace RtfToHtml
             {
                 if (attribute.OriginalName == "align" || attribute.OriginalName == "text-align")
                 {
-                    this.addReferenceTagInRtfCode(Style.getRtfAlignmentReference(attribute.Value));
+                    Console.WriteLine(Style.getRtfAlignmentReference(attribute.Value)+"here");
+                   this.addReferenceTagInRtfCode(Style.getRtfAlignmentReference(attribute.Value));
                 }
-                if(attribute.OriginalName == "style")
+                if (attribute.OriginalName == "style")
                 {
                     this.addReferenceTagInRtfCode(Style.getRtfReferencesInStyleProperty(attribute.Value));
+                }
+                if(attribute.OriginalName == "href")
+                {
+                    this.addReferenceTagInRtfCode("{\\field{\\*\\fldinst HYPERLINK "+ @""""+attribute.Value+@""""+"}{\\fldrslt{\\ul\\cf2");
                 }
             }
             //if (attributes.s != null)
             //    this.addReferenceTagInRtfCode(Style.getRtfReferencesInStyleProperty(attributes.style));
-            
+
         }
 
 
 
         void addClosingFatherTagInRtfCode(string closingFatherTag)
         {
-            Console.WriteLine(closingFatherTag);
             this.addReferenceTagInRtfCode(AllowedHtmlTags.getRtfReferenceTag($"/{closingFatherTag}"));
         }
         void addContentOfTagInRtfCode(string contentOfTag)

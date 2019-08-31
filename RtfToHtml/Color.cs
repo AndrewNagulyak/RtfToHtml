@@ -15,7 +15,25 @@ namespace RtfToHtml
     static class Color
     {
 
+       static IDictionary<string, string> baseColors = new Dictionary<string, string>()
+                                            {
+                                                {"black","rgb(0,0,0)"},
+                                                {"white","rgb(255,255,255)"},
+                                                {"red","rgb(255,0,0)"},
+                                                {"lime","rgb(0,255,0)"},
+                                                {"yellow","rgb(255,255,0)"},
+                                                {"cyan","rgb(0,255,255)"},
+                                                {"magenta","rgb(255,0,255)"},
+                                                {"silver","rgb(192,192,192)"},
+                                                {"gray","rgb(128,128,128)"},
+                                                {"maroon","rgb(128,0,0)"},
+                                                {"olive","rgb(128,128,0)"},
+                                                {"green","rgb(0,128,0)"},
+                                                {"purple","rgb(128,0,128)"},
+                                                {"teal","rgb(0,128,128)"},
+                                                {"blue","rgb(0,0,255)"},
 
+                                            };
         const string RTF_COLOR_TABLE_OPENING = "{\\colortbl ;";
         const string RTF_COLOR_TABLE_CLOSING = "}";
         public static string getRtfColorTable()
@@ -25,6 +43,11 @@ namespace RtfToHtml
 
         public static string getRtfReferenceColor(string color)
         {
+            foreach (KeyValuePair<string, string> entry in baseColors)
+            {
+                if (entry.Key == color.ToLower())
+                    color = entry.Value;
+            }
             if (color.Contains("rgb"))
                 return getColorInColorTable(getRgbValues(color));
 

@@ -57,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reference.cs" />
     <Compile Include="Style.cs" />
+    <Compile Include="Table.cs" />
     <Compile Include="Tag.cs" />
   </ItemGroup>
   <ItemGroup>

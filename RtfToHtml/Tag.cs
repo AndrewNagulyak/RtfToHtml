@@ -12,6 +12,7 @@ namespace RtfToHtml
         public string openingRtf;
         public string closing;
         public string closingRtf;
+       
   
     }
 }
