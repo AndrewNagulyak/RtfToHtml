@@ -56,7 +56,22 @@ namespace RtfToHtml
 
             return null;
         }
+        public static string getRtfReferenceBackgroundColor(string color)
+        {
+            foreach (KeyValuePair<string, string> entry in baseColors)
+            {
+                if (entry.Key == color.ToLower())
+                    color = entry.Value;
+            }
+            if (color.Contains("rgb"))
+                return getBackColorInColorTable(getRgbValues(color));
 
+            if (color.Contains("#"))
+                return getBackColorInColorTable(convertColorInHexToRgb(color));
+
+            return null;
+        }
+        
         public static double[] getRgbValues(string color)
         {
             color = Regex.Replace(color, "[\\])}[{(rgb:; ]", "");
@@ -76,41 +91,78 @@ namespace RtfToHtml
 
         public static string getColorInColorTable(double[] rgb)
         {
-            if (verifyIfColorExistsInColorTable(rgb))
-                return getRtfReferenceColorInColorTable(rgb);
+            if (verifyIfColorExistsInColorTable(rgb,"fore"))
+                return getRtfReferenceColorInColorTable(rgb,"fore");
             else
             {
-                addColorInColorTable(rgb);
-                return getRtfReferenceColorInColorTable(rgb);
+                addColorInColorTable(rgb,"fore");
+                return getRtfReferenceColorInColorTable(rgb,"fore");
             }
         }
-
-        public static bool verifyIfColorExistsInColorTable(double []rgb)
+        public static string getBackColorInColorTable(double[] rgb)
+        {
+            if (verifyIfColorExistsInColorTable(rgb,"back"))
+                return getRtfReferenceColorInColorTable(rgb,"back");
+            else
+            {
+                addColorInColorTable(rgb,"back");
+                return getRtfReferenceColorInColorTable(rgb,"back");
+            }
+        }
+        
+        public static bool verifyIfColorExistsInColorTable(double []rgb,string type)
         {
             bool hasThisColor = false; int colorsPosition = 1;
+            string style = "";
+            if(type=="fore")
+            {
+                style = "cf";
+            }
+            else if(type=="back")
+            {
+                style = "highlight";
+            }
             foreach (string[] value in ColorTable.colors)
             {
-                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString())
+                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString() && value[3].Contains(style))
                     hasThisColor = true;
             }
             return hasThisColor;
         }
 
-        public static void addColorInColorTable(double []rgb)
+        public static void addColorInColorTable(double []rgb,string type)
         {
-            string rtfReferenceColor;
+            string rtfReferenceColor="";
             int amountColorPosition = 0, colorsPosition = 1;
             ColorTable.amount++;
-            rtfReferenceColor = "\\cf" + ColorTable.amount;
+            if (type == "back")
+            {
+            rtfReferenceColor = "\\highlight" + ColorTable.amount;
+
+            }
+            else if (type == "fore")
+            {
+                rtfReferenceColor = "\\cf" + ColorTable.amount;
+
+            }
             ColorTable.colors.Add(new string[4]{rgb[0].ToString(),rgb[1].ToString(),rgb[2].ToString(),rtfReferenceColor });
         }
 
-        public static string getRtfReferenceColorInColorTable(double[] rgb)
+        public static string getRtfReferenceColorInColorTable(double[] rgb,string type)
         {
             string rtfReferenceColor = "";
+            string style = "";
+            if (type == "fore")
+            {
+                style = "cf";
+            }
+            else if (type == "back")
+            {
+                style = "highlight";
+            }
             foreach (string[] value in ColorTable.colors)
             {
-                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString())
+                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString() && value[3].Contains(style))
                     rtfReferenceColor = value[3];
             }
 

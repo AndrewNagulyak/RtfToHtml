@@ -16,6 +16,8 @@ namespace RtfToHtml
         string rtfHeaderOpening;
         string rtfHeaderContent;
         string rtfClosing;
+        HtmlNode prevTag = null;
+
         List<Reference> rtfContentReferences = new List<Reference>();
         public Rtf()
         {
@@ -40,30 +42,30 @@ namespace RtfToHtml
         }
         void readAllChildsInTag(HtmlNode fatherTag)
         {
-            //Console.WriteLine(fatherTag.OriginalName);
+
             if (fatherTag.ChildNodes != null)
             {
-                Console.WriteLine(fatherTag.Name);
+
                 this.addOpeningTagInRtfCode(fatherTag.Name);
                 this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.Attributes);
 
                 if (fatherTag.Name.ToLower() == "table")
                 {
-                    table= new Table();
-
+                    table = new Table();
                     table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.ChildNodes));
                 }
 
                 if (fatherTag.Name.ToLower() == "tr")
                 {
-                    if(table!=null)
-                    this.addReferenceTagInRtfCode(table.buildCellsLengthOfEachColumn());
+                    if (table != null)
+                        this.addReferenceTagInRtfCode(table.buildCellsLengthOfEachColumn());
                 }
-           
+
                 //if (fatherTag.Name.toLowerCase() == 'mark')
                 //    this.setHighlightInRtf();
                 foreach (HtmlNode node in fatherTag.ChildNodes)
                 {
+
                     if (node.OriginalName != "#text")
                     {
 
@@ -71,20 +73,50 @@ namespace RtfToHtml
                     }
                     else
                     {
-                        this.addContentOfTagInRtfCode(node.InnerText);
+                        if (node.NextSibling != null)
+                            if ((node.NextSibling.Name.ToLower() == "p"
+                               || node.NextSibling.Name.ToLower() == "h1"
+                               || node.NextSibling.Name.ToLower() == "h2"
+                               || node.NextSibling.Name.ToLower() == "h3"
+                               || node.NextSibling.Name.ToLower() == "h4"
+                               || node.NextSibling.Name.ToLower() == "h5"
+                               || node.NextSibling.Name.ToLower() == "h6")&& !String.IsNullOrWhiteSpace(node.InnerText))
+                            {
+                                string text = node.InnerText;
+                                text = MyString.removeCharacterOfEscapeInAllString(text, "\n\t");
+
+                                if (text != null && !MyString.hasOnlyWhiteSpace(text))
+                                    this.rtfContentReferences.Add(new Reference() { content = this.addSpaceAroundString(text.Trim())+"{\\par}", tag = false });
+
+                                //this.addContentOfTagInRtfCode(text.Trim() + "{\\par}");
+
+                            }
+                            else
+                            {
+                                this.addContentOfTagInRtfCode(node.InnerText.Trim());
+
+                            }
+                        else
+                        {
+                            this.addContentOfTagInRtfCode(node.InnerText.Trim());
+
+                        }
+
                         //Console.WriteLine(node.InnerText);
                     }
                 }
 
             }
             //Console.WriteLine(fatherTag.OriginalName);
-            if(fatherTag.OriginalName == "a" && !fatherTag.Attributes.Contains("href"))
+            if (fatherTag.OriginalName == "a" && !fatherTag.Attributes.Contains("href"))
             {
                 this.addReferenceTagInRtfCode("}");
             }
-            else { 
-            this.addClosingFatherTagInRtfCode(fatherTag.OriginalName);
+            else
+            {
+                this.addClosingFatherTagInRtfCode(fatherTag.OriginalName);
             }
+            prevTag = fatherTag;
         }
         int getAmountOfColumnThroughOfFirstChildOfTbodyTag(HtmlNodeCollection childs)
         {
@@ -123,16 +155,15 @@ namespace RtfToHtml
             {
                 if (attribute.OriginalName == "align" || attribute.OriginalName == "text-align")
                 {
-                    Console.WriteLine(Style.getRtfAlignmentReference(attribute.Value)+"here");
-                   this.addReferenceTagInRtfCode(Style.getRtfAlignmentReference(attribute.Value));
+                    this.addReferenceTagInRtfCode(Style.getRtfAlignmentReference(attribute.Value));
                 }
                 if (attribute.OriginalName == "style")
                 {
                     this.addReferenceTagInRtfCode(Style.getRtfReferencesInStyleProperty(attribute.Value));
                 }
-                if(attribute.OriginalName == "href")
+                if (attribute.OriginalName == "href")
                 {
-                    this.addReferenceTagInRtfCode("{\\field{\\*\\fldinst HYPERLINK "+ @""""+attribute.Value+@""""+"}{\\fldrslt{\\ul\\cf2");
+                    this.addReferenceTagInRtfCode("{\\field{\\*\\fldinst HYPERLINK " + @"""" + attribute.Value + @"""" + "}{\\fldrslt{\\ul\\cf3");
                 }
             }
             //if (attributes.s != null)
@@ -155,6 +186,7 @@ namespace RtfToHtml
         }
         string addSpaceAroundString(string contentOfTag)
         {
+            Console.WriteLine(contentOfTag + "wrapped");
             return $" {contentOfTag} ";
         }
         void addOpeningTagInRtfCode(string tag)

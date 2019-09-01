@@ -16,6 +16,11 @@ namespace RtfToHtml
         {
             return Color.getRtfReferenceColor(value);
         }
+       
+            public static string getRtfReferenceBackGroundColor(string value)
+        {
+            return Color.getRtfReferenceBackgroundColor(value);
+        }
         public static string getRtfColorTable()
         {
             return Color.getRtfColorTable();
@@ -43,6 +48,8 @@ namespace RtfToHtml
 
                         case "color":
                             { listOfRtfReferences += Style.getRtfReferenceColor(value); break; }
+                        case "background-color":
+                            { listOfRtfReferences += Style.getRtfReferenceBackGroundColor(value); break; }
                         case "font-size":
                             { listOfRtfReferences += Style.getRtfFontSizeReference(value); break; }
                         case "text-align":

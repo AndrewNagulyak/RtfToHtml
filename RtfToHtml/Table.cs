@@ -45,7 +45,6 @@ namespace RtfToHtml
             {
 
                 cellGroup += this.rtfReferenceRow + (this.getCellLength() * columnNumber + this.getCellLength());
-                Console.WriteLine(cellGroup);
 
             }
             return cellGroup;

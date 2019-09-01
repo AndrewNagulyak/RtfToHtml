@@ -47,14 +47,14 @@ namespace RtfToHtml
            new Tag()
             {
               opening="br",
-              openingRtf="\\line",
+              openingRtf="\\par",
               closing="br/",
-              closingRtf="\\line"
+              closingRtf="\\par"
            },
            new Tag()
            {
               opening="center",
-              openingRtf="{\\pard\\qr",
+              openingRtf="\\line{\\pard\\qc",
               closing="/center",
               closingRtf="\\par}"
            },
@@ -66,6 +66,7 @@ namespace RtfToHtml
               closingRtf= "\\par}"
 
            },
+       
            new Tag()
            {
               opening="a",
@@ -91,42 +92,42 @@ namespace RtfToHtml
             new Tag()
            {
               opening="h1",
-              openingRtf="{\\fs43\\f2 {\\ltrch ",
+              openingRtf="{\\fs43\\f2 {\\ltrch",
               closing="/h1",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
             new Tag()
            {
               opening="h2",
-              openingRtf="{\\fs39\\f2 {\\ltrch ",
+              openingRtf="{\\fs39\\f2 {\\ltrch",
               closing="/h2",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
             new Tag()
            {
               opening="h3",
-              openingRtf="{\\fs36\\f2 {\\ltrch ",
+              openingRtf="{\\fs36\\f2 {\\ltrch",
               closing="/h3",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
             new Tag()
            {
               opening="h4",
-              openingRtf="{\\fs32\\f2 {\\ltrch ",
+              openingRtf="{\\fs32\\f2 {\\ltrch",
               closing="/h4",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
            new Tag()
            {
               opening="h5",
-              openingRtf="{\\fs24\\f2 {\\ltrch ",
+              openingRtf="{\\fs24\\f2 {\\ltrch",
               closing="/h5",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
            new Tag()
            {
               opening="h6",
-              openingRtf="{\\fs19\\f2 {\\ltrch ",
+              openingRtf="{\\fs19\\f2 {\\ltrch",
               closing="/h6",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
@@ -157,6 +158,14 @@ namespace RtfToHtml
               opening= "ol",
               openingRtf= "{{\\*\\pn\\pnlvlbody\\pnf0\\pnindent0\\pnstart1\\pndec{\\pntxta.}}\\fi-360\\li720\\sa200\\sl276\\slmult1",
               closing= "/ol",
+              closingRtf= "}"
+           },
+             new Tag()
+
+           {
+              opening= "ul",
+              openingRtf= "{{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1\\lang22\\f0\\fs22",
+              closing= "/ul",
               closingRtf= "}"
            },
                     new Tag()
@@ -203,7 +212,7 @@ namespace RtfToHtml
 
            {
               opening= "table",
-              openingRtf= "{",
+              openingRtf= "\\par{",
               closing= "/table",
               closingRtf= "}"
            },
@@ -255,14 +264,7 @@ namespace RtfToHtml
               closing= "/u",
               closingRtf= "}"
            },
-                    new Tag()
-
-           {
-              opening= "ul",
-              openingRtf= "{{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\\"B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1\\lang22\\f0\\fs22",
-              closing= "/ul",
-              closingRtf= "}"
-           },
+             
                     new Tag()
 
            {
