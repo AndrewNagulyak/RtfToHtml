@@ -31,6 +31,7 @@ namespace RtfToHtml
                     alignmentReference = element.reference;        
                 }
             }
+           
             return alignmentReference;
         }
     }

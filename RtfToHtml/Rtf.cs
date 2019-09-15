@@ -21,7 +21,7 @@ namespace RtfToHtml
         List<Reference> rtfContentReferences = new List<Reference>();
         public Rtf()
         {
-            this.rtfHeaderOpening = "{\\rtf1\\ansi\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}";
+            this.rtfHeaderOpening = "{\\rtf1\\ansi\\deff0";
             this.rtfHeaderContent = "";
             this.rtfClosing = "}";
         }
@@ -145,7 +145,7 @@ namespace RtfToHtml
                 }
 
             }
-            Console.WriteLine(count);
+           // Console.WriteLine(count);
             return count;
 
         }
@@ -157,6 +157,7 @@ namespace RtfToHtml
                 {
                     this.addReferenceTagInRtfCode(Style.getRtfAlignmentReference(attribute.Value));
                 }
+                
                 if (attribute.OriginalName == "style")
                 {
                     this.addReferenceTagInRtfCode(Style.getRtfReferencesInStyleProperty(attribute.Value));
@@ -186,7 +187,7 @@ namespace RtfToHtml
         }
         string addSpaceAroundString(string contentOfTag)
         {
-            Console.WriteLine(contentOfTag + "wrapped");
+            //Console.WriteLine(contentOfTag + "wrapped");
             return $" {contentOfTag} ";
         }
         void addOpeningTagInRtfCode(string tag)
@@ -204,6 +205,7 @@ namespace RtfToHtml
 
         string buildRtf()
         {
+            this.rtfHeaderContent += Style.getRtfFontTable();
             this.rtfHeaderContent += Style.getRtfColorTable();
             string content = (this.rtfHeaderOpening + this.rtfHeaderContent
                 + this.getRtfContentReferences()

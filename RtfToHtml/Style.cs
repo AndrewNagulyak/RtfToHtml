@@ -25,9 +25,17 @@ namespace RtfToHtml
         {
             return Color.getRtfColorTable();
         }
+        public static string getRtfFontTable()
+        {
+            return FontFamily.getRtfFontTable();
+        }
         public static string getRtfFontSizeReference(string value)
         {
             return FontSize.getRtfFontSizeReference(value);
+        }
+        public static string getRtfFontReference(string value)
+        {
+            return FontFamily.getRtfReferenceFont(value);
         }
         public static string getRtfReferencesInStyleProperty(string styleValue)
         {
@@ -45,7 +53,10 @@ namespace RtfToHtml
                     value = values[1];
                     switch (propertyName)
                     {
+                        case "font-family":
 
+                            { listOfRtfReferences += Style.getRtfFontReference(value); break; }
+                    
                         case "color":
                             { listOfRtfReferences += Style.getRtfReferenceColor(value); break; }
                         case "background-color":

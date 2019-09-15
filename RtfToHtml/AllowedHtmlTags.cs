@@ -14,7 +14,7 @@ namespace RtfToHtml
               opening = "b",
               openingRtf = "{\\b",
               closing = "/b",
-              closingRtf =  "}"
+              closingRtf =  "\\pard}"
            },
            new Tag()
            {
@@ -72,7 +72,7 @@ namespace RtfToHtml
               opening="a",
               openingRtf="",
               closing="/a",
-              closingRtf= "}}}"
+              closingRtf= "\\pard}}}"
 
            },
            new Tag()
@@ -80,14 +80,14 @@ namespace RtfToHtml
               opening="em",
               openingRtf="{\\b",
               closing="/em",
-              closingRtf="}"
+              closingRtf="\\pard}"
            },
            new Tag()
            {
               opening="font",
               openingRtf="{",
               closing="/font",
-              closingRtf="}"
+              closingRtf="\\pard}"
            },
             new Tag()
            {
@@ -136,7 +136,7 @@ namespace RtfToHtml
               opening="i",
               openingRtf="{\\i",
               closing="/i",
-              closingRtf="}"
+              closingRtf="\\pard\\pard}"
            },
              new Tag()
            {
@@ -198,7 +198,7 @@ namespace RtfToHtml
               opening= "sup",
               openingRtf= "{\\super",
               closing= "/sup",
-              closingRtf= "}"
+              closingRtf= "\\pard}"
            },
                     new Tag()
 
@@ -206,7 +206,7 @@ namespace RtfToHtml
               opening= "strong",
               openingRtf= "{\\b",
               closing= "/strong",
-              closingRtf= "}"
+              closingRtf= "\\pard}"
            },
                     new Tag()
 
@@ -262,7 +262,7 @@ namespace RtfToHtml
               opening= "u",
               openingRtf= "{\\ul",
               closing= "/u",
-              closingRtf= "}"
+              closingRtf= "\\pard}"
            },
              
                     new Tag()

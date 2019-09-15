@@ -19,16 +19,25 @@ namespace RtfToHtml
 
         {
             string htmlofExample = File.ReadAllText("G:/projects/RtfToHtml/RtfToHtml/html.html");
-            Console.WriteLine(htmlofExample);
+            string rtfofExample = File.ReadAllText("G:/projects/RtfToHtml/RtfToHtml/rtf.rtf");
+
+           // Console.WriteLine(htmlofExample);
             Rtf htmlToRtf = new Rtf();
-           SaveToRtfFile(htmlToRtf.convertHtmlToRtf(htmlofExample));
+            SaveToRtfFile(htmlToRtf.convertHtmlToRtf(htmlofExample));
+           Html rtfToHtml = new Html();
+           SaveToHtmlFile(rtfToHtml.convertRtfToHtml(rtfofExample));
         }
         static void SaveToRtfFile( string html)
         {
-            Console.WriteLine(html);
+            //Console.WriteLine(html);
 
             // Assume we already have a document 'dc'.
            File.WriteAllText(@"G:/projects/RtfToHtml/RtfToHtml/Rtf.rtf", html);
+        }
+        static void SaveToHtmlFile(string rtf)
+        {
+            // Assume we already have a document 'dc'.
+            File.WriteAllText(@"G:/projects/RtfToHtml/RtfToHtml/html1.html", rtf);
         }
 
 

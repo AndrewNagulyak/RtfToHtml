@@ -36,8 +36,12 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.12.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.12\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="nrtftree-library, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\nrtftree-library.0.4.0\lib\net461\nrtftree-library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +54,10 @@
     <Compile Include="AlignmentAttribute.cs" />
     <Compile Include="AllowedHtmlTags.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="FontFamily.cs" />
     <Compile Include="FontSize.cs" />
+    <Compile Include="Html.cs" />
+    <Compile Include="HtmlEntities.cs" />
     <Compile Include="MyString.cs" />
     <Compile Include="Rtf.cs" />
     <Compile Include="Program.cs" />
