@@ -24,8 +24,8 @@ namespace RtfToHtml
            // Console.WriteLine(htmlofExample);
             Rtf htmlToRtf = new Rtf();
             SaveToRtfFile(htmlToRtf.convertHtmlToRtf(htmlofExample));
-           Html rtfToHtml = new Html();
-           SaveToHtmlFile(rtfToHtml.convertRtfToHtml(rtfofExample));
+            Html rtfToHtml = new Html();
+            SaveToHtmlFile(rtfToHtml.convertRtfToHtml(rtfofExample));
         }
         static void SaveToRtfFile( string html)
         {

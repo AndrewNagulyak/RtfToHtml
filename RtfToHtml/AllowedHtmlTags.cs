@@ -92,35 +92,35 @@ namespace RtfToHtml
             new Tag()
            {
               opening="h1",
-              openingRtf="{\\fs43\\f2 {\\ltrch",
+              openingRtf="{\\fs43\\f2\\b {\\ltrch",
               closing="/h1",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
             new Tag()
            {
               opening="h2",
-              openingRtf="{\\fs39\\f2 {\\ltrch",
+              openingRtf="{\\fs39\\f2\\b {\\ltrch",
               closing="/h2",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
             new Tag()
            {
               opening="h3",
-              openingRtf="{\\fs36\\f2 {\\ltrch",
+              openingRtf="{\\fs36\\f2\\b {\\ltrch",
               closing="/h3",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
             new Tag()
            {
               opening="h4",
-              openingRtf="{\\fs32\\f2 {\\ltrch",
+              openingRtf="{\\fs32\\f2\\b {\\ltrch",
               closing="/h4",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
            new Tag()
            {
               opening="h5",
-              openingRtf="{\\fs24\\f2 {\\ltrch",
+              openingRtf="{\\fs24\\f2\\b {\\ltrch",
               closing="/h5",
               closingRtf="}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}"
            },
@@ -141,9 +141,9 @@ namespace RtfToHtml
              new Tag()
            {
               opening="li",
-              openingRtf="{\\pntext\\tab}",
+              openingRtf="{{\\pntext\\tab}",
               closing="/li",
-              closingRtf="\\par"
+              closingRtf="}\\par"
            },
             new Tag()
            {
@@ -177,7 +177,6 @@ namespace RtfToHtml
               closingRtf= "}"
            },
                     new Tag()
-
            {
               opening= "span",
               openingRtf= "{",
