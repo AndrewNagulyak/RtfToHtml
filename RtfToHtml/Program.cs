@@ -18,8 +18,8 @@ namespace RtfToHtml
         static void Main(string[] args)
 
         {
-            string htmlofExample = File.ReadAllText("G:/projects/RtfToHtml/RtfToHtml/html.html");
-            string rtfofExample = File.ReadAllText("G:/projects/RtfToHtml/RtfToHtml/rtf.rtf");
+            string htmlofExample = File.ReadAllText("../../html.html");
+            string rtfofExample = File.ReadAllText("../../rtf.rtf");
 
            // Console.WriteLine(htmlofExample);
             Rtf htmlToRtf = new Rtf();
@@ -32,12 +32,12 @@ namespace RtfToHtml
             //Console.WriteLine(html);
 
             // Assume we already have a document 'dc'.
-           File.WriteAllText(@"G:/projects/RtfToHtml/RtfToHtml/Rtf.rtf", html);
+           File.WriteAllText(@"../../Rtf.rtf", html);
         }
         static void SaveToHtmlFile(string rtf)
         {
             // Assume we already have a document 'dc'.
-            File.WriteAllText(@"G:/projects/RtfToHtml/RtfToHtml/html1.html", rtf);
+            File.WriteAllText(@"../../html1.html", rtf);
         }
 
 

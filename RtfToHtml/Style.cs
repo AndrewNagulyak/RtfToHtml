@@ -11,7 +11,14 @@ namespace RtfToHtml
         public static string getRtfAlignmentReference(string value)
         {
             return Alignment.getRtfAlignmentReference(value);
+
         }
+        public static string getRtfTextDecorationReference(string value)
+        {
+            return TextDecoration.getRtfTextDecorationReference(value);
+
+        }
+        
         public static string getRtfReferenceColor(string value)
         {
             return Color.getRtfReferenceColor(value);
@@ -35,6 +42,9 @@ namespace RtfToHtml
         }
         public static string getRtfFontReference(string value)
         {
+            value = value.Split(',')[0];
+            value = value.Replace(@"'", " ");
+            Console.WriteLine(value);
             return FontFamily.getRtfReferenceFont(value);
         }
         public static string getRtfReferencesInStyleProperty(string styleValue)
@@ -42,15 +52,18 @@ namespace RtfToHtml
             string value = "";
             string propertyName = "";
             string listOfRtfReferences = "";
-            styleValue = styleValue.Replace(" ", "");
 
             foreach (var entries in styleValue.Split(';'))
             {
                 string[] values = entries.Split(':');
                 if (values.Length == 2)
                 {
+
                     propertyName = values[0];
                     value = values[1];
+                    propertyName = propertyName.Replace(" ", "");
+                    value = value.Trim();
+
                     switch (propertyName)
                     {
                         case "font-family":
@@ -65,6 +78,8 @@ namespace RtfToHtml
                             { listOfRtfReferences += Style.getRtfFontSizeReference(value); break; }
                         case "text-align":
                             { listOfRtfReferences += Style.getRtfAlignmentReference(value); break; }
+                        case "text-decoration":
+                            { listOfRtfReferences += Style.getRtfTextDecorationReference(value); break; }
                     }
                 }
             

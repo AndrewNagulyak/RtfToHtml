@@ -142,7 +142,7 @@ namespace RtfToHtml
             }
             else if (type == "fore")
             {
-                rtfReferenceColor = "\\cf" + ColorTable.amount;
+                rtfReferenceColor = "\\cf" + ColorTable.amount+' ';
 
             }
             ColorTable.colors.Add(new string[4]{rgb[0].ToString(),rgb[1].ToString(),rgb[2].ToString(),rtfReferenceColor });

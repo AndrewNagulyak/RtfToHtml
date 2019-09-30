@@ -54,6 +54,7 @@
     <Compile Include="AlignmentAttribute.cs" />
     <Compile Include="AllowedHtmlTags.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="DecorationAttribute.cs" />
     <Compile Include="FontFamily.cs" />
     <Compile Include="FontSize.cs" />
     <Compile Include="Html.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Style.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="Tag.cs" />
+    <Compile Include="TextDecoration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

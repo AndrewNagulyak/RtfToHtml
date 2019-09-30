@@ -93,12 +93,12 @@ namespace RtfToHtml
                             }
                             else
                             {
-                                this.addContentOfTagInRtfCode(node.InnerText.Trim());
+                                this.addContentOfTagInRtfCode(node.InnerText.Trim(),"text");
 
                             }
                         else
                         {
-                            this.addContentOfTagInRtfCode(node.InnerText.Trim());
+                            this.addContentOfTagInRtfCode(node.InnerText.Trim(),"text");
 
                         }
 
@@ -178,17 +178,19 @@ namespace RtfToHtml
         {
             this.addReferenceTagInRtfCode(AllowedHtmlTags.getRtfReferenceTag($"/{closingFatherTag}"));
         }
-        void addContentOfTagInRtfCode(string contentOfTag)
+        void addContentOfTagInRtfCode(string contentOfTag,string type = "notText")
         {
+           
             contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, "\n\t");
 
             if (contentOfTag != null && !MyString.hasOnlyWhiteSpace(contentOfTag))
                 this.rtfContentReferences.Add(new Reference() { content = this.addSpaceAroundString(contentOfTag.Trim()), tag = false });
+            
         }
         string addSpaceAroundString(string contentOfTag)
         {
-            //Console.WriteLine(contentOfTag + "wrapped");
-            return $" {contentOfTag} ";
+            Console.WriteLine(contentOfTag + "wrapped");
+            return $" {contentOfTag}";
         }
         void addOpeningTagInRtfCode(string tag)
         {
@@ -231,9 +233,10 @@ namespace RtfToHtml
         string swapHtmlStrangerTags(string html)
         {
             MatchEvaluator evaluator = new MatchEvaluator(WordReplace);
+            string replace = html.Replace("&nbsp;", @"{\*\htmltag &nbsp;}");
+            Console.WriteLine(replace);
 
-
-            string replace = Regex.Replace(html, @"<(\/?[a-z-]+)( *[^>]*)?>", evaluator, RegexOptions.IgnoreCase);
+             replace = Regex.Replace(replace, @"<(\/?[a-z-]+)( *[^>]*)?>", evaluator, RegexOptions.IgnoreCase);
 
             return replace;
         }

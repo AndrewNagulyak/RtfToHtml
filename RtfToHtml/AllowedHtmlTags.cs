@@ -78,7 +78,7 @@ namespace RtfToHtml
            new Tag()
            {
               opening="em",
-              openingRtf="{\\b",
+              openingRtf="{\\i",
               closing="/em",
               closingRtf="\\pard}"
            },

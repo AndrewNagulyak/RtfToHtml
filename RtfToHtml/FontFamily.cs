@@ -10,6 +10,7 @@ namespace RtfToHtml
     {
         public static int amount = 0;
         public static List<string> font = new List<string>();
+        
     }
     static class FontFamily
     {
@@ -51,14 +52,27 @@ namespace RtfToHtml
 
         public static void addFontInFontTable(string font)
         {
+            if (FontTable.amount == 0)
+            { FontTable.font.Add("TimesNewRoman");
+                FontTable.amount++; }
             string rtfReferenceFont = "";
             int amountFontPosition = 0, fontsPosition = 1;
             FontTable.amount++;
-            
-                //rtfReferenceFont = "\\f" + ColorTable.amount + "\\fcharset0" + font;
 
-           
+            //rtfReferenceFont = "\\f" + ColorTable.amount + "\\fcharset0" + font;
+            bool flag = true;
+           foreach(string fontInTable in FontTable.font )
+            {
+                Console.WriteLine(fontInTable + "===" + font);
+
+                if (fontInTable == font)
+                {
+                    flag = false;
+                }
+            }
+            if (flag) { 
             FontTable.font.Add(font);
+            }
         }
 
         public static string getRtfReferenceFontInFontTable(string font)
@@ -67,7 +81,8 @@ namespace RtfToHtml
             
             foreach (string value in FontTable.font)
             {
-                if (value.Contains(font))
+                Console.WriteLine(value + "----" + font);
+                if (value == font)
                     rtfReferenceFont = "\\f" + FontTable.font.IndexOf(value);
             }
 
@@ -76,9 +91,11 @@ namespace RtfToHtml
 
         public static string getAllFontsDeclaredInFontTable()
         {
+
             string fontTableContent = "";
             foreach (string value in FontTable.font)
             {
+
                 fontTableContent += "{\\f"+FontTable.font.IndexOf(value)+"\\fcharset0 "+value+";}";
             }
             return fontTableContent;

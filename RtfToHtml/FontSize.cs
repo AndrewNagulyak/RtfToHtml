@@ -19,12 +19,28 @@ namespace RtfToHtml
                 Double.TryParse(value,out result);
                 return getFontSizeReferenceInPx(result);
             }
+            else
+            {
+                foreach (KeyValuePair<string, string> entry in baseSizes)
+                {
+                    if (entry.Key == value)
+                        return getRtfFontSizeReference(entry.Value);
+                }
+            }
             return null;
         }
-
+        static IDictionary<string, string> baseSizes = new Dictionary<string, string>()
+                                            {
+                                                {"x-small","10px"},
+                                                {"small","13.333px"},
+                                                {"medium","16px"},
+                                                {"large","	18px"},
+                                                {"x-large","24px"},
+                                                {"xx-large","32px"},                                        
+                                            };
         public static string getFontSizeReferenceInPx(double valueInPixel)
         {
-            return FONT_SIZE_RTF_REFERENCE + Math.Truncate((double)(valueInPixel) * ONE_PIXEL_IN_POINT);
+            return FONT_SIZE_RTF_REFERENCE + Math.Truncate((double)(valueInPixel) * ONE_PIXEL_IN_POINT) *2;
         }
     }
 }

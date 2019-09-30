@@ -373,7 +373,7 @@ namespace RtfToHtml
 
                                 case "line":
                                 case "par": //Nueva línea
-                                    _builder.Append("<br />");
+                                    _builder.Append("<br>");
                                     //_formatList.Last().Reset();
 
                                     break;
@@ -541,7 +541,7 @@ namespace RtfToHtml
                         _builder.Append("</sup>");
                         _htmlFormat.Superscript = false;
                     }
-                    if (_formatList.Last().CompareFontFormat(_htmlFormat) == false || text.Contains("close") && _formatList.Last().SpanIsOpen) //El formato de fuente ha cambiado
+                    if ((_formatList.Last().CompareFontFormat(_htmlFormat) == false || text.Contains("close")) && _formatList.Last().SpanIsOpen) //El formato de fuente ha cambiado
                     {
 
                         if (spanCount > 0)
@@ -571,7 +571,7 @@ namespace RtfToHtml
 
                     if (!IgnoreFontNames && !string.IsNullOrEmpty(_formatList.Last().FontName) &&
                         string.Compare(_formatList.Last().FontName, DefaultFontName, true) != 0)
-                        estilo += string.Format("font-family:{0};", _formatList.Last().FontName);
+                        estilo += string.Format("font-family:{0};", "\'" + _formatList.Last().FontName.Trim()+"\'");
                     if (_formatList.Last().FontSize > 0 && _formatList.Last().FontSize / 2 != DefaultFontSize)
                         estilo += string.Format("font-size:{0}pt;", _formatList.Last().FontSize / 2);
                     if (_formatList.Last().Margin != _htmlFormat.Margin)
