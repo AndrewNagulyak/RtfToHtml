@@ -30,7 +30,6 @@ namespace RtfToHtml
             string htmlWithoutStrangerTags = this.swapHtmlStrangerTags(html);
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(htmlWithoutStrangerTags);
-
             var htmlBody = htmlDoc.DocumentNode.SelectSingleNode("//html");
             HtmlNodeCollection treeofTags = htmlBody.ChildNodes;
 

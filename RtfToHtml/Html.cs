@@ -321,6 +321,9 @@ namespace RtfToHtml
                                 case "i": //Cursiva
                                     _formatList.Last().Italic = !nodo.HasParameter || nodo.Parameter == 1;
                                     break;
+                                case "strike": //Cursiva
+                                    _formatList.Last().Strike = !nodo.HasParameter || nodo.Parameter == 1;
+                                    break;
                                 case "em": //Cursiva
                                     _formatList.Last().Italic = !nodo.HasParameter || nodo.Parameter == 1;
                                     break;
@@ -328,7 +331,7 @@ namespace RtfToHtml
                                 case "ul": //Subrayado ON
                                     _formatList.Last().Underline = true;
                                     break;
-
+                              
                                 case "ulnone": //Subrayado OFF
                                     _formatList.Last().Underline = false;
                                     break;
@@ -526,6 +529,12 @@ namespace RtfToHtml
                         _builder.Append("</em>");
                         _htmlFormat.Italic = false;
                     }
+
+                    if (_formatList.Last().Strike == true)
+                    {
+                        _builder.Append("</strike>");
+                        _htmlFormat.Strike = false;
+                    }
                     if (_formatList.Last().Underline == true)
                     {
                         _builder.Append("</u>");
@@ -619,6 +628,12 @@ namespace RtfToHtml
                     _builder.Append("<sub>");
                     _htmlFormat.Subscript = true;
                 }
+                if (_formatList.Last().Strike && _htmlFormat.Strike == false)
+                {
+                    _builder.Append("<strike>");
+                    _htmlFormat.Stri = true;
+                }
+
                 if (_formatList.Last().Underline && _htmlFormat.Underline == false)
                 {
                     _builder.Append("<u>");
@@ -660,6 +675,7 @@ namespace RtfToHtml
             public bool Italic;
             public bool Bold;
             public bool Subscript;
+            public bool Strike;
             public bool Underline;
             public bool IsLi = false;
             public bool Superscript;
@@ -687,6 +703,7 @@ namespace RtfToHtml
                 return string.Compare(FontName, format.FontName, true) == 0 &&
                        FontSize == format.FontSize &&
                        ForeColor == format.ForeColor &&
+                       Strike == format.Strike &&
                        BackColor == format.BackColor &&
                        Margin == format.Margin &&
                        Alignment == format.Alignment;
@@ -699,6 +716,7 @@ namespace RtfToHtml
                 Bold = false;
                 Subscript = false;
                 Italic = false;
+                Strike = false;
                 ForeColor = System.Drawing.Color.Black;
                 BackColor = System.Drawing.Color.White;
                 Underline = false;
