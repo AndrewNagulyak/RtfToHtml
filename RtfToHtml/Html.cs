@@ -631,7 +631,7 @@ namespace RtfToHtml
                 if (_formatList.Last().Strike && _htmlFormat.Strike == false)
                 {
                     _builder.Append("<strike>");
-                    _htmlFormat.Stri = true;
+                    _htmlFormat.Strike = true;
                 }
 
                 if (_formatList.Last().Underline && _htmlFormat.Underline == false)
