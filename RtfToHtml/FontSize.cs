@@ -12,12 +12,20 @@ namespace RtfToHtml
         public const double ONE_PIXEL_IN_POINT = 0.75;
         public static string getRtfFontSizeReference(string value)
         {
-            if (value.Contains("px"))
+            int isDigit = 0;
+            if (value.Contains("px") || Int32.TryParse(value, out isDigit))
             {
                 value = value.Replace("px", "");
                 double result = 0;
                 Double.TryParse(value,out result);
                 return getFontSizeReferenceInPx(result);
+            }
+            if (value.Contains("pt"))
+            {
+                value = value.Replace("pt", "");
+                double result = 0;
+                Double.TryParse(value, out result);
+                return getFontSizeReferenceInPt(result);
             }
             else
             {
@@ -42,5 +50,10 @@ namespace RtfToHtml
         {
             return FONT_SIZE_RTF_REFERENCE + Math.Truncate((double)(valueInPixel) * ONE_PIXEL_IN_POINT) *2;
         }
+        public static string getFontSizeReferenceInPt(double valueInPixel)
+        {
+            return FONT_SIZE_RTF_REFERENCE + valueInPixel*2;
+        }
+        
     }
 }
