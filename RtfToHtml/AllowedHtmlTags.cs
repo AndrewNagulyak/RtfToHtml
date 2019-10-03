@@ -14,7 +14,7 @@ namespace RtfToHtml
               opening = "b",
               openingRtf = "{\\b",
               closing = "/b",
-              closingRtf =  "\\pard}"
+              closingRtf =  "\\line}"
            },
            new Tag()
            {
@@ -54,7 +54,7 @@ namespace RtfToHtml
            new Tag()
            {
               opening="center",
-              openingRtf="\\line{\\pard\\qc",
+              openingRtf="\\line{\\line\\qc",
               closing="/center",
               closingRtf="\\par}"
            },
@@ -72,7 +72,7 @@ namespace RtfToHtml
               opening="a",
               openingRtf="",
               closing="/a",
-              closingRtf= "\\pard}}}"
+              closingRtf= "\\line}}}"
 
            },
            new Tag()
@@ -80,14 +80,14 @@ namespace RtfToHtml
               opening="em",
               openingRtf="{\\i",
               closing="/em",
-              closingRtf="\\pard}"
+              closingRtf="\\line}"
            },
            new Tag()
            {
               opening="font",
               openingRtf="{",
               closing="/font",
-              closingRtf="\\pard}"
+              closingRtf="\\line}"
            },
             new Tag()
            {
@@ -136,7 +136,7 @@ namespace RtfToHtml
               opening="i",
               openingRtf="{\\i",
               closing="/i",
-              closingRtf="\\pard\\pard}"
+              closingRtf="\\line\\line}"
            },
              new Tag()
            {
@@ -197,7 +197,7 @@ namespace RtfToHtml
               opening= "sup",
               openingRtf= "{\\super",
               closing= "/sup",
-              closingRtf= "\\pard}"
+              closingRtf= "\\line}"
            },
                     new Tag()
 
@@ -205,7 +205,7 @@ namespace RtfToHtml
               opening= "strong",
               openingRtf= "{\\b",
               closing= "/strong",
-              closingRtf= "\\pard}"
+              closingRtf= "\\line}"
            },
                     new Tag()
 
@@ -235,7 +235,7 @@ namespace RtfToHtml
 
            {
               opening= "td",
-              openingRtf= "{\\pard\\intbl\\qc",
+              openingRtf= "{\\line\\intbl\\qc",
               closing= "/td",
               closingRtf= "\\cell}"
            },
@@ -243,7 +243,7 @@ namespace RtfToHtml
 
            {
               opening= "th",
-              openingRtf= "{\\pard\\intbl\\qc",
+              openingRtf= "{\\line\\intbl\\qc",
               closing= "/th",
               closingRtf= "\\cell}"
            },
@@ -261,7 +261,7 @@ namespace RtfToHtml
               opening= "u",
               openingRtf= "{\\ul",
               closing= "/u",
-              closingRtf= "\\pard}"
+              closingRtf= "\\line}"
            },
              
                     new Tag()

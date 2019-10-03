@@ -21,7 +21,7 @@ namespace RtfToHtml
         List<Reference> rtfContentReferences = new List<Reference>();
         public Rtf()
         {
-            this.rtfHeaderOpening = "{\\rtf1\\ansi\\deff0";
+            this.rtfHeaderOpening = "{\\rtf1\\ansi\\ansicpg1252\\uc1\\htmautsp\\deff2";
             this.rtfHeaderContent = "";
             this.rtfClosing = "}";
         }
