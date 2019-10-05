@@ -34,7 +34,7 @@ namespace RtfToHtml
                                                 {"blue","rgb(0,0,255)"},
 
                                             };
-        const string RTF_COLOR_TABLE_OPENING = "{\\colortbl ;";
+        const string RTF_COLOR_TABLE_OPENING = "{\\colortbl";
         const string RTF_COLOR_TABLE_CLOSING = "}";
         public static string getRtfColorTable()
         {
@@ -174,7 +174,7 @@ namespace RtfToHtml
             string colorTableContent = "";
             foreach (string[] value in ColorTable.colors)
             {
-                colorTableContent += "\\red" + value[0] + "\\green" + value[1] + "\\blue" + value[2] + ";";
+                colorTableContent += "\\red" + value[0] + "\\green" + value[1] + "\\blue" + value[2] + " ;";
             }
             return colorTableContent;
         }

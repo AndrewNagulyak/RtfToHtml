@@ -32,6 +32,8 @@ namespace RtfToHtml
             htmlDoc.LoadHtml(htmlWithoutStrangerTags);
             var htmlBody = htmlDoc.DocumentNode.SelectSingleNode("//html");
             HtmlNodeCollection treeofTags = htmlBody.ChildNodes;
+            Style.getRtfReferenceColor("rgb(0,0,0)");
+            Style.getRtfReferenceColor("rgb(255,255,255)");
 
             foreach (var node in treeofTags)
             {

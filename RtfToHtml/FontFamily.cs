@@ -53,7 +53,7 @@ namespace RtfToHtml
         public static void addFontInFontTable(string font)
         {
             if (FontTable.amount == 0)
-            { FontTable.font.Add("TimesNewRoman");
+            { FontTable.font.Add("Times New Roman");
                 FontTable.amount++; }
             string rtfReferenceFont = "";
             int amountFontPosition = 0, fontsPosition = 1;
@@ -95,8 +95,7 @@ namespace RtfToHtml
             string fontTableContent = "";
             foreach (string value in FontTable.font)
             {
-
-                fontTableContent += "{\\f"+FontTable.font.IndexOf(value)+"\\fcharset0 "+value+";}";
+                fontTableContent += "{\\f"+FontTable.font.IndexOf(value)+"\\fcharset0 "+value.Trim()+";}";
             }
             return fontTableContent;
         }
