@@ -87,19 +87,19 @@ namespace RtfToHtml
                                 text = MyString.removeCharacterOfEscapeInAllString(text, "\n\t");
 
                                 if (text != null && !MyString.hasOnlyWhiteSpace(text))
-                                    this.rtfContentReferences.Add(new Reference() { content = this.addSpaceAroundString(text.Trim())+"{\\par}", tag = false });
+                                    this.rtfContentReferences.Add(new Reference() { content = this.addSpaceAroundString(text)+"{\\par}", tag = false });
 
                                 //this.addContentOfTagInRtfCode(text.Trim() + "{\\par}");
 
                             }
                             else
                             {
-                                this.addContentOfTagInRtfCode(node.InnerText.Trim(),"text");
+                                this.addContentOfTagInRtfCode(node.InnerText,"text");
 
                             }
                         else
                         {
-                            this.addContentOfTagInRtfCode(node.InnerText.Trim(),"text");
+                            this.addContentOfTagInRtfCode(node.InnerText,"text");
 
                         }
 
@@ -185,13 +185,19 @@ namespace RtfToHtml
             contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, "\n\t");
 
             if (contentOfTag != null && !MyString.hasOnlyWhiteSpace(contentOfTag))
-                this.rtfContentReferences.Add(new Reference() { content = this.addSpaceAroundString(contentOfTag.Trim()), tag = false });
+                this.rtfContentReferences.Add(new Reference() { content = this.addSpaceAroundString(contentOfTag), tag = false });
             
         }
         string addSpaceAroundString(string contentOfTag)
         {
             Console.WriteLine(contentOfTag + "wrapped");
-            return $" {contentOfTag}";
+            if (this.rtfContentReferences.Last().content.Contains('\\'))
+            {
+                Console.WriteLine(this.rtfContentReferences.Last().content);
+                return $" {contentOfTag}";
+            }
+            else
+                return $"{contentOfTag}";
         }
         void addOpeningTagInRtfCode(string tag)
         {
