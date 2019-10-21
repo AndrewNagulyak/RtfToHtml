@@ -9,7 +9,7 @@ namespace RtfToHtml
 {
     static class ColorTable
     {
-        public static int amount = 0;
+        public static int amount = -1;
         public static List<string[]> colors = new List<string[]>();
     }
     static class Color
@@ -80,12 +80,22 @@ namespace RtfToHtml
 
         public static double[] convertColorInHexToRgb(string hexColor)
         {
+            Console.WriteLine("-----");
+            Console.WriteLine(hexColor);
             double[] rgb = new double[3];
             hexColor = Regex.Replace(hexColor, "[#; ]", "");
+            Console.WriteLine(hexColor);
             hexColor = (hexColor.Length == 3) ? hexColor[0] + "" + hexColor[0] + "" + hexColor[1] + "" + hexColor[1] + "" + hexColor[2] + "" + hexColor[2] : hexColor;
-            rgb[2] = Math.Pow(16, 1) * MyString.convertOneCharInHexToDec(hexColor[4].ToString()) + Math.Pow(16, 0) * MyString.convertOneCharInHexToDec(hexColor[5].ToString());
-            rgb[1] = Math.Pow(16, 1) * MyString.convertOneCharInHexToDec(hexColor[2].ToString()) + Math.Pow(16, 0) * MyString.convertOneCharInHexToDec(hexColor[3].ToString());
-            rgb[0] = Math.Pow(16, 1) * MyString.convertOneCharInHexToDec(hexColor[0].ToString()) + Math.Pow(16, 0) * MyString.convertOneCharInHexToDec(hexColor[1].ToString());
+            Console.WriteLine(hexColor);
+
+         
+            rgb[2] = Convert.ToInt32((hexColor[4].ToString()+hexColor[5].ToString()).ToString(), 16);
+            rgb[1] = Convert.ToInt32((hexColor[2].ToString()+hexColor[3].ToString()).ToString(), 16);
+            rgb[0] = Convert.ToInt32((hexColor[0].ToString()+hexColor[1].ToString()).ToString(), 16);
+
+            Console.WriteLine(rgb[0]+"-r"+rgb[1]+"-g"+rgb[2]);
+            Console.WriteLine("-----");
+
             return rgb;
         }
 
@@ -135,6 +145,7 @@ namespace RtfToHtml
             string rtfReferenceColor = "";
             int amountColorPosition = 0, colorsPosition = 1;
             ColorTable.amount++;
+            Console.WriteLine(rgb[0] + rgb[1] + rgb[2] + ColorTable.amount);
             if (type == "back")
             {
                 rtfReferenceColor = "\\highlight" + ColorTable.amount;
@@ -142,7 +153,7 @@ namespace RtfToHtml
             }
             else if (type == "fore")
             {
-                rtfReferenceColor = "\\cf" + ColorTable.amount + ' ';
+                rtfReferenceColor = "\\cf" + ColorTable.amount;
 
             }
             ColorTable.colors.Add(new string[4] { rgb[0].ToString(), rgb[1].ToString(), rgb[2].ToString(), rtfReferenceColor });
