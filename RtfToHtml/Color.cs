@@ -134,7 +134,7 @@ namespace RtfToHtml
             }
             foreach (string[] value in ColorTable.colors)
             {
-                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString() && value[3].Contains(style))
+                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString())
                     hasThisColor = true;
             }
             return hasThisColor;
@@ -146,16 +146,7 @@ namespace RtfToHtml
             int amountColorPosition = 0, colorsPosition = 1;
             ColorTable.amount++;
             Console.WriteLine(rgb[0] + rgb[1] + rgb[2] + ColorTable.amount);
-            if (type == "back")
-            {
-                rtfReferenceColor = "\\highlight" + ColorTable.amount;
-
-            }
-            else if (type == "fore")
-            {
                 rtfReferenceColor = "\\cf" + ColorTable.amount;
-
-            }
             ColorTable.colors.Add(new string[4] { rgb[0].ToString(), rgb[1].ToString(), rgb[2].ToString(), rtfReferenceColor });
         }
 
@@ -163,20 +154,25 @@ namespace RtfToHtml
         {
             string rtfReferenceColor = "";
             string style = "";
+           
+            foreach (string[] value in ColorTable.colors)
+            {
+                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString())
+                    rtfReferenceColor = value[3];
+            }
             if (type == "fore")
             {
-                style = "cf";
+                rtfReferenceColor.Replace("highlight","cf");
             }
             else if (type == "back")
             {
-                style = "highlight";
-            }
-            foreach (string[] value in ColorTable.colors)
-            {
-                if (value[0] == rgb[0].ToString() && value[1] == rgb[1].ToString() && value[2] == rgb[2].ToString() && value[3].Contains(style))
-                    rtfReferenceColor = value[3];
-            }
+                Console.WriteLine(rtfReferenceColor);
+                rtfReferenceColor =  rtfReferenceColor.Replace("cf", "highlight");
 
+                Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                Console.WriteLine(rtfReferenceColor);
+
+            }
             return rtfReferenceColor;
         }
 

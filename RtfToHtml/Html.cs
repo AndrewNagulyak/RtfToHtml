@@ -308,6 +308,7 @@ namespace RtfToHtml
                                 case "highlight": //Color de fondo
                                     if (nodo.Parameter < _colorTable.Count)
                                         _formatList.Last().BackColor = _colorTable[nodo.Parameter];
+                                    Console.WriteLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
                                     break;
 
                                 case "fs": //Tamaño de fuente
@@ -717,7 +718,6 @@ namespace RtfToHtml
                 Subscript = false;
                 Italic = false;
                 Strike = false;
-                ForeColor = System.Drawing.Color.Black;
                 BackColor = System.Drawing.Color.White;
                 Underline = false;
                 Margin = 0;
