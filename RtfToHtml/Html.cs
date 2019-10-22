@@ -121,9 +121,22 @@ namespace RtfToHtml
             this._builder.Append("<!DOCTYPE html><html><body> ");
             _formatList = new List<Format>();
             _formatList.Add(new Format());
-            _fontTable = rtfTree.GetFontTable();
-            _colorTable = rtfTree.GetColorTable();
+            try
+            {
+                _fontTable = rtfTree.GetFontTable();
+            }
+            catch
+            {
 
+            }
+            try
+            {
+                _colorTable = rtfTree.GetColorTable();
+            }
+            catch
+            {
+
+            }
             int inicio;
             for (inicio = 0; inicio < rtfTree.RootNode.FirstChild.ChildNodes.Count; inicio++)
             {
@@ -182,12 +195,12 @@ namespace RtfToHtml
             return EscapeHtmlEntities ? HtmlEntities.Encode(_builder.ToString()) : _builder.ToString();
 
         }
-        
+
 
         private void TransformChildNodes(RtfNodeCollection nodos, int inicio)
         {
             //for (int i =0;i<nodos.Count-1;i++)
-            foreach(RtfTreeNode nod in nodos)
+            foreach (RtfTreeNode nod in nodos)
             {
                 //if(nodo.)
                 Console.WriteLine(nod.NodeKey);
@@ -210,17 +223,17 @@ namespace RtfToHtml
                         case RtfNodeType.Keyword:
                             {
                                 //Console.WriteLine(nod.NodeKey);
-                                if(nod.NodeKey== "pnlvlblt")
+                                if (nod.NodeKey == "pnlvlblt")
                                 {
-                                    
+
                                     nod.ParentNode.ParentNode.NodeKey = "ul";
-                                    foreach(RtfTreeNode node in nod.ParentNode.ParentNode.ChildNodes)
+                                    foreach (RtfTreeNode node in nod.ParentNode.ParentNode.ChildNodes)
                                     {
-                                     
-                                        if(node.NodeType == RtfNodeType.Keyword)
+
+                                        if (node.NodeType == RtfNodeType.Keyword)
                                         {
-                                            
-                                         //node.ParentNode.AppendChild(node);
+
+                                            //node.ParentNode.AppendChild(node);
                                         }
                                     }
                                     //Console.WriteLine(nod.ParentNode.NodeKey);
@@ -237,13 +250,13 @@ namespace RtfToHtml
 
                                         if (node.NodeType == RtfNodeType.Keyword)
                                         {
-                                             //node.ParentNode.ParentNode.AppendChild(node);
+                                            //node.ParentNode.ParentNode.AppendChild(node);
                                         }
                                     }
                                     nod.ParentNode.NodeKey = "";
 
                                 }
-                                if (nod.NodeKey=="pntext")
+                                if (nod.NodeKey == "pntext")
                                 {
                                     nod.ParentNode.ParentNode.NodeKey = "li";
                                 }
@@ -301,7 +314,7 @@ namespace RtfToHtml
                                     break;
 
                                 case "cf": //Color de fuente
-                                    if (nodo.Parameter < _colorTable.Count )
+                                    if (nodo.Parameter < _colorTable.Count)
                                         _formatList.Last().ForeColor = _colorTable[nodo.Parameter];
                                     break;
 
@@ -332,7 +345,7 @@ namespace RtfToHtml
                                 case "ul": //Subrayado ON
                                     _formatList.Last().Underline = true;
                                     break;
-                              
+
                                 case "ulnone": //Subrayado OFF
                                     _formatList.Last().Underline = false;
                                     break;
@@ -341,7 +354,8 @@ namespace RtfToHtml
                                     _formatList.Last().Superscript = true;
                                     _formatList.Last().Subscript = false;
                                     break;
-                                case "fonttbl":case "colortbl":
+                                case "fonttbl":
+                                case "colortbl":
                                     {
                                         int i = nodo.ParentNode.ChildNodes.Count - 1;
                                         foreach (RtfTreeNode node in nodo.ParentNode.ChildNodes)
@@ -362,8 +376,8 @@ namespace RtfToHtml
                                     break;
 
                                 case "qc": //Alineacion centrada
-                                   if(nodo.ParentNode.NodeKey != "td")
-                                    _formatList.Last().Alignment = HorizontalAlignment.Center;
+                                    if (nodo.ParentNode.NodeKey != "td")
+                                        _formatList.Last().Alignment = HorizontalAlignment.Center;
                                     break;
 
                                 case "qr": //Alineacion derecha
@@ -389,7 +403,7 @@ namespace RtfToHtml
 
                         case RtfNodeType.Group:
                             {
-                                
+
                                 //Procesar nodos hijo, si los tiene
                                 if (nodo.HasChildNodes())
                                 {
@@ -426,8 +440,8 @@ namespace RtfToHtml
                                         else
                                             WriteText("", true);
                                     }
-                                        _formatList.Add(new Format());
-                                    
+                                    _formatList.Add(new Format());
+
                                     ProcessChildNodes(nodo.ChildNodes, 0);
 
                                     if (nodo.NodeKey == "ul")
@@ -451,7 +465,7 @@ namespace RtfToHtml
                                         _builder.Append("</td>");
 
                                     }
-                                    if (nodo.NodeKey=="li")
+                                    if (nodo.NodeKey == "li")
                                     {
                                         _builder.Append("</li>");
                                     }
@@ -468,14 +482,14 @@ namespace RtfToHtml
                                             hasHref = true;
                                         }
                                     }
-                                        _formatList.RemoveAt(_formatList.Count - 1);
-                                        _htmlFormat.FontName = _formatList.Last().FontName;
-                                        _htmlFormat.FontSize = _formatList.Last().FontSize;
-                                        _htmlFormat.ForeColor = _formatList.Last().ForeColor;
-                                        _htmlFormat.BackColor = _formatList.Last().BackColor;
-                                        _htmlFormat.Margin = _formatList.Last().Margin;
-                                        _htmlFormat.Alignment = _formatList.Last().Alignment;
-                                    
+                                    _formatList.RemoveAt(_formatList.Count - 1);
+                                    _htmlFormat.FontName = _formatList.Last().FontName;
+                                    _htmlFormat.FontSize = _formatList.Last().FontSize;
+                                    _htmlFormat.ForeColor = _formatList.Last().ForeColor;
+                                    _htmlFormat.BackColor = _formatList.Last().BackColor;
+                                    _htmlFormat.Margin = _formatList.Last().Margin;
+                                    _htmlFormat.Alignment = _formatList.Last().Alignment;
+
 
                                 }
                                 break;
@@ -581,7 +595,7 @@ namespace RtfToHtml
 
                     if (!IgnoreFontNames && !string.IsNullOrEmpty(_formatList.Last().FontName) &&
                         string.Compare(_formatList.Last().FontName, DefaultFontName, true) != 0)
-                        estilo += string.Format("font-family:{0};", "\'" + _formatList.Last().FontName.Trim()+"\'");
+                        estilo += string.Format("font-family:{0};", "\'" + _formatList.Last().FontName.Trim() + "\'");
                     if (_formatList.Last().FontSize > 0 && _formatList.Last().FontSize / 2 != DefaultFontSize)
                         estilo += string.Format("font-size:{0}pt;", _formatList.Last().FontSize / 2);
                     if (_formatList.Last().Margin != _htmlFormat.Margin)
@@ -590,7 +604,7 @@ namespace RtfToHtml
                         estilo += string.Format("text-align:{0};", _formatList.Last().Alignment.ToString().ToLower());
                     if (CompareColor(_formatList.Last().ForeColor, _htmlFormat.ForeColor) == false)
                         estilo += string.Format("color:{0};", ColorTranslator.ToHtml(_formatList.Last().ForeColor));
-                    if (_formatList.Last().BackColor!=System.Drawing.Color.White)
+                    if (_formatList.Last().BackColor != System.Drawing.Color.White)
                         estilo += string.Format("background-color:{0};", ColorTranslator.ToHtml(_formatList.Last().BackColor));
 
                     _htmlFormat.FontName = _formatList.Last().FontName;
